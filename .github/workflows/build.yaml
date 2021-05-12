@@ -75,7 +75,7 @@ jobs:
         run: docker buildx build --progress plain ./test/${{ matrix.tag }}
 
   release:
-    needs: [lang, distro]
+    #needs: [lang, distro]
     runs-on: ubuntu-latest
 
     timeout-minutes: 15
