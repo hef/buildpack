@@ -23,15 +23,12 @@ group "test" {
 }
 
 target "build_docker" {
-  inherits  = ["settings"]
-  output    = ["type=docker"]
+  //output    = ["type=docker"]
   platforms = ["linux/amd64", "linux/arm64"]
 
   tags = [
     "ghcr.io/${OWNER}/${FILE}",
     "ghcr.io/${OWNER}/${FILE}:${TAG}",
-    "${OWNER}f/${FILE}:${TAG}",
-    "${OWNER}f/${FILE}",
   ]
 }
 
