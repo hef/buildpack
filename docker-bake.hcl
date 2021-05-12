@@ -58,7 +58,6 @@ target "build_docker" {
 
 target "build_distro" {
   dockerfile = "Dockerfile.${TAG}"
-  platforms  = ["linux/amd64", "linux/arm64"]
 
   tags = [
     "${OWNER}f/${FILE}:${TAG}",
