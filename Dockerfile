@@ -13,7 +13,8 @@ ARG USER_ID
 ARG USER_NAME
 
 LABEL maintainer="Rhys Arkins <rhys@arkins.net>" \
-  org.opencontainers.image.source="https://github.com/containerbase/buildpack"
+  org.opencontainers.image.source="https://github.com/containerbase/buildpack" \
+  hef="hef"
 
 #  autoloading buildpack env
 ENV BASH_ENV=/usr/local/etc/env PATH=/home/$USER_NAME/bin:$PATH
