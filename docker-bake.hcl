@@ -1,9 +1,11 @@
 variable "OWNER" {
-  default = "containerbase"
+  default = "hef"
 }
+
 variable "FILE" {
   default = "buildpack"
 }
+
 variable "TAG" {
   default = "latest"
 }
@@ -20,9 +22,9 @@ group "test" {
   targets = ["build_distro"]
 }
 
-
 target "settings" {
   context = "."
+
   cache-from = [
     "type=registry,ref=ghcr.io/${OWNER}/cache:${FILE}",
     "type=registry,ref=ghcr.io/${OWNER}/cache:${FILE}-${TAG}",
@@ -32,34 +34,39 @@ target "settings" {
 target "push_cache" {
   inherits = ["settings"]
   output   = ["type=registry"]
+
   tags = [
     "ghcr.io/${OWNER}/cache:${FILE}-${TAG}",
     "ghcr.io/${OWNER}/cache:${FILE}",
   ]
+
   cache-to = ["type=inline,mode=max"]
 }
 
 target "build_docker" {
   inherits = ["settings"]
   output   = ["type=docker"]
+
   tags = [
     "ghcr.io/${OWNER}/${FILE}",
     "ghcr.io/${OWNER}/${FILE}:${TAG}",
-    "${OWNER}/${FILE}:${TAG}",
-    "${OWNER}/${FILE}",
+    "${OWNER}f/${FILE}:${TAG}",
+    "${OWNER}f/${FILE}",
   ]
 }
 
 target "build_distro" {
   dockerfile = "Dockerfile.${TAG}"
+
   tags = [
-    "${OWNER}/${FILE}:${TAG}"
+    "${OWNER}f/${FILE}:${TAG}",
   ]
 }
 
 target "push_ghcr" {
   inherits = ["settings"]
   output   = ["type=registry"]
+
   tags = [
     "ghcr.io/${OWNER}/${FILE}",
     "ghcr.io/${OWNER}/${FILE}:${TAG}",
@@ -69,5 +76,5 @@ target "push_ghcr" {
 target "push_hub" {
   inherits = ["settings"]
   output   = ["type=registry"]
-  tags     = ["${OWNER}/${FILE}", "${OWNER}/${FILE}:${TAG}"]
+  tags     = ["${OWNER}f/${FILE}", "${OWNER}f/${FILE}:${TAG}"]
 }
