@@ -44,8 +44,9 @@ target "push_cache" {
 }
 
 target "build_docker" {
-  inherits = ["settings"]
-  output   = ["type=docker"]
+  inherits  = ["settings"]
+  output    = ["type=docker"]
+  platforms = ["linux/amd64", "linux/arm64"]
 
   tags = [
     "ghcr.io/${OWNER}/${FILE}",
@@ -57,6 +58,7 @@ target "build_docker" {
 
 target "build_distro" {
   dockerfile = "Dockerfile.${TAG}"
+  platforms  = ["linux/amd64", "linux/arm64"]
 
   tags = [
     "${OWNER}f/${FILE}:${TAG}",
