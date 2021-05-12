@@ -22,27 +22,6 @@ group "test" {
   targets = ["build_distro"]
 }
 
-target "settings" {
-  context = "."
-
-  cache-from = [
-    "type=registry,ref=ghcr.io/${OWNER}/cache:${FILE}",
-    "type=registry,ref=ghcr.io/${OWNER}/cache:${FILE}-${TAG}",
-  ]
-}
-
-target "push_cache" {
-  inherits = ["settings"]
-  output   = ["type=registry"]
-
-  tags = [
-    "ghcr.io/${OWNER}/cache:${FILE}-${TAG}",
-    "ghcr.io/${OWNER}/cache:${FILE}",
-  ]
-
-  cache-to = ["type=inline,mode=max"]
-}
-
 target "build_docker" {
   inherits  = ["settings"]
   output    = ["type=docker"]
@@ -65,8 +44,7 @@ target "build_distro" {
 }
 
 target "push_ghcr" {
-  inherits = ["settings"]
-  output   = ["type=registry"]
+  output = ["type=registry"]
 
   tags = [
     "ghcr.io/${OWNER}/${FILE}",
@@ -75,7 +53,6 @@ target "push_ghcr" {
 }
 
 target "push_hub" {
-  inherits = ["settings"]
-  output   = ["type=registry"]
-  tags     = ["${OWNER}f/${FILE}", "${OWNER}f/${FILE}:${TAG}"]
+  output = ["type=registry"]
+  tags   = ["${OWNER}f/${FILE}", "${OWNER}f/${FILE}:${TAG}"]
 }
