@@ -15,7 +15,7 @@ group "default" {
 }
 
 group "push" {
-  targets = ["push_ghcr", "push_hub", "push_cache"]
+  targets = ["push_ghcr", "push_hub"]
 }
 
 group "test" {
