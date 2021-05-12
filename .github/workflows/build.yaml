@@ -33,7 +33,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - name: test distro
         run: docker buildx bake --progress plain test
 
@@ -64,6 +67,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: build
         run: docker buildx bake --progress plain
@@ -75,7 +82,7 @@ jobs:
         run: docker buildx build --progress plain ./test/${{ matrix.tag }}
 
   release:
-    needs: [lang, distro]
+    #needs: [lang, distro]
     runs-on: ubuntu-latest
 
     timeout-minutes: 15
@@ -104,11 +111,15 @@ jobs:
       - uses: actions/checkout@v2.3.4
         with:
           fetch-depth: 0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Docker registry login
         if: github.ref == 'refs/heads/main'
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          #echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
       - name: Cache Yarn packages
